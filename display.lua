@@ -28,6 +28,7 @@ function display.update()
    state.rawFrame = image.scale(state.rawFrame,options.eye, options.eye)
    state.rawFrame:add(-options.mean):div(options.std)
 
+
    local output = state.network:forward(state.rawFrame)
    local prob, idx = torch.max(output, 1)
 
@@ -39,12 +40,13 @@ function display.update()
                  win=painter,
                  zoom=window_zoom}
 
+
    painter:setcolor('black')
    painter:setfont(qt.QFont{serif=false,italic=false,size=14})
    painter:moveto(0, options.eye * window_zoom +20)
-   painter:show('Prediction: '.. state.label[idx:squeeze()])
+   painter:show('Prediction: '.. state.label[idx:squeeze()[1]])
    painter:moveto(0, options.eye * window_zoom +40)
-   painter:show('Probability:' .. prob:squeeze())
+   painter:show('Probability:' .. prob:squeeze()[1])
 
    painter:moveto(options.eye * window_zoom +20, 20)
    painter:show('Visualization of: '..state.network_table[ui.currentId].name)
